@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -16,12 +16,15 @@ const LoginPage = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-      const data = await response.json();
-      if (response.ok) {
-        navigate("/dashboard");
-      } else {
-        alert(data.message || "Login failed");
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(errorData.message || "Login failed");
+        return;
       }
+
+      await response.json();
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error logging in:", error);
       alert("An error occurred. Please try again.");
