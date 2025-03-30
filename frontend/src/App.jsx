@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router";
 import LoginPage from "./components/auth/LoginPage";
-import SignupPage from "./components/auth/SignupPage";
+import SignupPage from "./components/auth/SignUpPage";
 import AdminDashboard from "./components/dashboard/AdminDashboard";
 import UserDashboard from "./components/dashboard/UserDashboard";
 import OwnerDashboard from "./components/dashboard/OwnerDashboard";
