@@ -1,22 +1,23 @@
-import React from "react";
-import { Link, useNavigate } from "react-router"; 
-import { useEffect, useState } from "react";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router";
+import { useEffect } from "react";
+import { RoleContext } from "../../App";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [role, setRole] = useState(null);
+  const { role, setRole } = useContext(RoleContext);
 
   useEffect(() => {
     const storedRole = localStorage.getItem("role");
     if (storedRole) {
       setRole(storedRole);
     }
-  }, []);
+  }, [setRole]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    setRole(null);
+    setRole(null); // Clear role in context
     navigate("/login");
   };
 
@@ -50,23 +51,18 @@ const Navbar = () => {
                     Admin Dashboard
                   </Link>
                   <Link
-                    to="/manage-users"
+                    to="/add-users"
                     className="hover:text-gray-200 transition duration-200"
                   >
-                    Manage Users
+                    Add Users
                   </Link>
                   <Link
-                    to="/manage-stores"
+                    to="/add-stores"
                     className="hover:text-gray-200 transition duration-200"
                   >
-                    Manage Stores
+                    Add Stores
                   </Link>
-                  <Link
-                    to="/settings"
-                    className="hover:text-gray-200 transition duration-200"
-                  >
-                    Settings
-                  </Link>
+
                 </>
               )}
 

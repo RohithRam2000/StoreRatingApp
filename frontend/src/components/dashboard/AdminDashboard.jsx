@@ -11,13 +11,12 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const usersResponse = await axiosInstance.get("/admin/users");
-        const storesResponse = await axiosInstance.get("/admin/stores");
-        const ratingsResponse = await axiosInstance.get("/admin/ratings");
-
+        const usersResponse = await axiosInstance.get("/auth/users");
+        const storesResponse = await axiosInstance.get("/stores");
+        const ratingsResponse = await axiosInstance.get("/stores/ratings");
         setUsers(usersResponse.data);
         setStores(storesResponse.data);
-        setRatings(ratingsResponse.data.totalRatings);
+        setRatings(ratingsResponse.data);
       } catch (error) {
         showErrorToast("Failed to fetch dashboard data.");
       }
@@ -40,7 +39,7 @@ const AdminDashboard = () => {
         </div>
         <div className="bg-yellow-500 text-white p-4 rounded-lg shadow-md">
           <h2 className="text-lg font-semibold">Total Ratings</h2>
-          <p className="text-3xl">{ratings}</p>
+          <p className="text-3xl">{ratings.length}</p>
         </div>
       </div>
     </div>

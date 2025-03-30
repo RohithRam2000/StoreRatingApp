@@ -36,7 +36,6 @@ router.get("/ratings", async (req, res) => {
 );
 
 
-// add another route to get ratings by userId
 router.get("/ratings/:userId", async (req, res) => {
     const userId = req.params.userId;
     const query = 'SELECT * FROM ratings WHERE user_id = ?';

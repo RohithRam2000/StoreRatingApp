@@ -84,6 +84,18 @@ router.post('/changepassword', async (req, res) => {
 }
 );
 
+router.get('/users', async (req, res) => {
+    const query = 'SELECT * FROM users';
+    dbConn.query(query, (err, results) => {
+        if (err) {
+            return res.status(500).json({ message: 'Error fetching users', error: err });
+        }
+        res.json(results);
+    });
+}
+);
+
+
 
 
 export default router;
