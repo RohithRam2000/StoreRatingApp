@@ -1,15 +1,13 @@
-import mysql from 'mysql2';
+import { Pool } from 'pg';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const getDbConnection = () => {
-    return mysql.createConnection({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASS,
-        database: process.env.DB_NAME
-    });
-};
+const pool = new Pool({
+    host: process.env.POSTGRES_HOST,
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.DB_NAME,
+    ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false // Optional for secure connections
+});
 
-export const dbConn = getDbConnection();
-
+export const dbConn = pool;
