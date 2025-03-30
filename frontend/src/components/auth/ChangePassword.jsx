@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { toast, ToastContainer } from "react-toastify";
+import axiosInstance from "../../utils/axios/axios";
 
 const SettingsPage = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -15,39 +17,36 @@ const SettingsPage = () => {
     e.preventDefault();
 
     if (!validatePassword(newPassword)) {
-      alert(
+      toast.error(
         "Password must be 8-16 characters, include at least one uppercase letter and one special character."
       );
       return;
     }
     if (newPassword !== confirmNewPassword) {
-      alert("New passwords do not match.");
+      toast.error("New passwords do not match.");
       return;
     }
 
     try {
-      const response = await fetch("/api/change-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ currentPassword, newPassword }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        alert("Password changed successfully");
-        navigate("/dashboard"); // Redirect to dashboard after successful password change
+      const response = await axiosInstance.post("/auth/changepassword",
+        { oldPassword: currentPassword, newPassword },
+      );
+     
+      if (response.status===200) {
+        toast.success("Password changed successfully");
+        navigate("/dashboard");
       } else {
-        alert(data.message || "Password change failed");
+        toast.error(data.message || "Password change failed");
       }
     } catch (error) {
       console.error("Error changing password:", error);
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <ToastContainer />
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-800">
           Change Password

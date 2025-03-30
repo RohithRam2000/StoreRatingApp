@@ -25,9 +25,10 @@ const UserDashboard = () => {
 
   const fetchUserRatings = async () => {
     try {
-      const response = await axiosInstance.get("/user/ratings");
+      const user = JSON.parse(localStorage.getItem("user") ||  '')
+      const response = await axiosInstance.get(`/stores/ratings/${user.id}`);
       const ratings = response.data.reduce((acc, rating) => {
-        acc[rating.storeId] = rating.rating;
+        acc[rating.store_id] = rating.rating;
         return acc;
       }, {});
       setUserRatings(ratings);
@@ -42,9 +43,11 @@ const UserDashboard = () => {
 
   const handleRatingSubmit = async (storeId, rating) => {
     try {
-      await axiosInstance.post(`/stores/${storeId}/rate`, { rating });
+      const user = JSON.parse(localStorage.getItem("user") ||  '')
+      await axiosInstance.post(`/stores/${storeId}/rate`, { rating, userId : user.id });
       showSuccessToast("Rating submitted successfully!");
       fetchUserRatings();
+      fetchStores();
     } catch (error) {
       showErrorToast("Failed to submit rating.");
     }

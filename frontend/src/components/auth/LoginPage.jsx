@@ -6,7 +6,7 @@ import { showErrorToast } from "../../utils/toasts/errorToast";
 import { showSuccessToast } from "../../utils/toasts/sucessToast";
 import axiosInstance from "../../utils/axios/axios";
 
-const LoginPage = () => {
+const LoginPage = ({ setRole }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -20,9 +20,11 @@ const LoginPage = () => {
       });
 
       if (response.status === 200) {
-        const { token, role } = response.data; // Extract token and role from the response
+        const { token, role, user } = response.data;
         localStorage.setItem("token", token); // Save token to localStorage
         localStorage.setItem("role", role); // Save role to localStorage
+        localStorage.setItem("user", JSON.stringify(user));
+        setRole(role); // Update role in context
         showSuccessToast("Login successful! Redirecting...");
         setTimeout(() => navigate("/dashboard"), 2000); // Redirect after 2 seconds
       } else {
