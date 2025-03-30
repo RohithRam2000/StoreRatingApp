@@ -1,14 +1,12 @@
 import React from "react";
 
 const UserDashboardStoreTable = ({ stores, userRatings, handleRatingSubmit }) => {
-  console.log(stores,'stores')
   if (!handleRatingSubmit) {
     console.error("handleRatingSubmit function is not provided!");
     return null;
   }
 
   const handleSelectChange = (storeId, event) => {
-    console.log(event.target.value, 'event.target.value')
     const value = parseInt(event.target.value);
     if (!isNaN(value)) {
       handleRatingSubmit(storeId, value);

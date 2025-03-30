@@ -58,7 +58,7 @@ const SignupPage = () => {
 
       if (response.status === 201) {
         showSuccessToast("Signup successful! Redirecting to login...");
-        setTimeout(() => navigate("/login"), 3000); // Redirect after 3 seconds
+        setTimeout(() => navigate("/login"), 3000);
       } else {
         showErrorToast(response.data.message || "Signup failed");
       }

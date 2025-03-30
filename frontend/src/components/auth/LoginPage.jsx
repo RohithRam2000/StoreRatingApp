@@ -21,12 +21,12 @@ const LoginPage = ({ setRole }) => {
 
       if (response.status === 200) {
         const { token, role, user } = response.data;
-        localStorage.setItem("token", token); // Save token to localStorage
-        localStorage.setItem("role", role); // Save role to localStorage
+        localStorage.setItem("token", token);
+        localStorage.setItem("role", role); 
         localStorage.setItem("user", JSON.stringify(user));
-        setRole(role); // Update role in context
+        setRole(role); 
         showSuccessToast("Login successful! Redirecting...");
-        setTimeout(() => navigate("/dashboard"), 2000); // Redirect after 2 seconds
+        setTimeout(() => navigate("/dashboard"), 2000); 
       } else {
         showErrorToast(response.data.message || "Login failed");
       }
