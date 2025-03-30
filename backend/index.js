@@ -8,7 +8,7 @@ import { dbConn } from './db/index.js';
 
 
 const app = express();
-app.use(cors());
+app.use(cors({origin: '*'}));
 app.use(express.json());
 app.use('/stores', storeRoutes);
 app.use('/auth', authRoutes);
@@ -22,6 +22,6 @@ dbConn.connect(err => {
     }
 });
 
-app.listen(5555, () => {
+app.listen(5000, () => {
     console.log('Server running on port 5000');
 });

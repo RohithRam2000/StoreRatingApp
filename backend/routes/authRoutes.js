@@ -1,12 +1,13 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { dbConn } from '../db/index.js';
+import { dbConn } from '../db/index.js'
+import { UserRoleEnum } from '../enums/UserRoleEnum.js';
 
 const router = express.Router();
 
 router.post('/register', async (req, res) => {
-    const { name, email, address, password, role } = req.body;
+    const { name, email, address, password, role = UserRoleEnum.USER } = req.body;
     if (!name || !email || !password) {
         return res.status(400).json({ message: 'All fields are required' });
     }
@@ -14,6 +15,7 @@ router.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const query = 'INSERT INTO users (name, email, address, password, role) VALUES (?, ?, ?, ?, ?)';
         dbConn.query(query, [name, email, address, hashedPassword, role], (err, result) => {
+            console.log(err,'err',result,'result')
             if (err) {
                 return res.status(500).json({ message: 'Error registering user', error: err });
             }

@@ -24,11 +24,14 @@ router.get("/:id/ratings", async (req, res) => {
     });
 });
 
-router.post("/rate", async (req, res) => {
-    const { userId, storeId, rating } = req.body;
+router.post("/:storeId/rate", async (req, res) => {
+    const { userId, rating } = req.body;
+    const storeId = req.params.storeId;
+
     if (!userId || !storeId || rating < 1 || rating > 5) {
         return res.status(400).json({ message: 'Invalid rating submission' });
     }
+
     const query = 'INSERT INTO ratings (user_id, store_id, rating) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE rating = ?';
     dbConn.query(query, [userId, storeId, rating, rating], (err, result) => {
         if (err) {
